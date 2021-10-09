@@ -1,0 +1,38 @@
+Terrain profile
+A terrain profile for the radio path is required for the application of the propagation prediction method.
+In principle, this consists of three arrays each having the same number of values, n, as follows:
+di: distance from transmitter of i-th profile point (km) (1a)
+hi: height of i-th profile point above sea level (m) (1b)
+gi = hi + representative clutter height of i-th profilepoint (m) (1c) --------- Unused
+where:
+i: 1, 2, 3 ... n = index of the profile point
+n: number of profile points.
+There must be at least one intermediate profile point between the transmitter and the receiver. Thus n
+must satisfy n  3. Such a small number of points is appropriate only for short paths, less than of the
+order of 1 km.
+
+Note that the first profile point is at the transmitter. Thus d1 is zero and h1 is the terrain height at the
+transmitter in metres above sea level. Similarly, the n-th profile point is at the receiver. Thus dn is the
+path length in km, and hn the terrain height at the receiver in metres above sea level.
+No specific distance between profile points is given. Assuming that profiles are extracted from
+a digital terrain elevation model, a suitable spacing will typically be similar to the point spacing of
+the source data. The profile points are not required to be equally-spaced, but it is desirable that they
+are at a similar spacing for the whole profile
+
+TABLE 2
+Default information for clutter-loss modelling
+Clutter type  Add to profile equation   Terminal clutter losses § 4.7      Terminal clutter loss model
+              (1c) for i = 2 to n - 1   and add to profile equation (1c)
+                                        for i = 1 and n
+Water/sea       0                       10                                 Equation (64b)
+Open/rural      0                       10                                 Equation (64b)
+Suburban       10                       10                                 Equation (64a)
+Urban/forest   15                       15                                 Equation (64a)
+Dense urban    20                       20                                 Equation (64a)
+
+
+
+
+
+
+

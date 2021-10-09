@@ -1,0 +1,45 @@
+Basic radio-meteorological parameters
+The prediction procedure requires two radio-meteorological parameters to describe the variability of
+atmospheric refractivity.
+– ΔN (N-units/km), the average radio-refractive index lapse-rate through the lowest 1 km of
+the atmosphere, provides the data upon which the appropriate effective Earth radius can be
+calculated for path profile and diffraction obstacle analysis. Note that ΔN is a positive
+quantity in this procedure.
+– N0 (N-units), the sea-level surface refractivity, is used only by the troposcatter model as a
+measure of variability of the troposcatter mechanism.
+If local measurements are not available, these quantities can be obtained from the maps in the integral
+digital products supplied with this Recommendation. The maps are contained in the files DN50.txt
+and N050.txt, respectively. The data are from 0o
+to 360o
+in longitude and from +90o
+to
+–90o
+in latitude, with a resolution of 1.5o
+in both latitude and longitude. The data are used in
+conjunction with the companion data files LAT.txt and LON.txt containing respectively the latitudes
+and longitudes of the corresponding entries (grid points) in the files DN50.txt and N050.txt. For a
+location different from the grid points, the parameter at the desired location can be derived by
+performing a bi-linear interpolation on the values at the four closest grid points, as described in
+Recommendation ITU-R P.1144.
+TABLE 4
+Integral digital products
+Filename Origin
+Latitude Longitude
+From
+(deg)
+To
+(deg)
+Spacing
+(deg)
+From
+(deg)
+To
+(deg)
+Spacing
+(deg)
+DN50.txt P.453 90 –90 1.5 0 360 1.5
+N050.txt P.453 90 –90 1.5 0 360 1.5
+LAT.txt P.453 90 –90 1.5 0 360 1.5
+LON.txt P.453 90 –90 1.5 0 360 1.5
+These digital maps were derived from analysis of a ten-year (1983-1992) global dataset of radiosonde
+ascents.

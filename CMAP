@@ -1,0 +1,71 @@
+Sequential
+For the Sequential plots, the lightness value increases monotonically through the colormaps. This is good. Some of the
+L∗ values in the colormaps span from 0 to 100 (binary and the other grayscale), and others start around L∗=20. Those
+that have a smaller range of L∗ will accordingly have a smaller perceptual range. Note also that the L∗ function varies
+amongst the colormaps: some are approximately linear in L∗ and others are more curved.
+
+cmaps['Perceptually Uniform Sequential'] = [
+            'viridis', 'plasma', 'inferno', 'magma', 'cividis']
+
+cmaps['Sequential'] = [
+            'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
+            'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
+            'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
+
+Sequential2
+Many of the L∗ values from the Sequential2 plots are monotonically increasing, but some (autumn, cool, spring, and
+winter) plateau or even go both up and down in L∗ space. Others (afmhot, copper, gist_heat, and hot) have kinks in the
+L∗ functions. Data that is being represented in a region of the colormap that is at a plateau or kink will lead to a
+perception of banding of the data in those values in the colormap (see [mycarta-banding] for an excellent example of this).
+
+cmaps['Sequential (2)'] = [
+            'binary', 'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
+            'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
+            'hot', 'afmhot', 'gist_heat', 'copper']
+Copy to clipboard
+Diverging
+For the Diverging maps, we want to have monotonically increasing L∗ values up to a maximum, which should be close to
+L∗=100, followed by monotonically decreasing L∗ values. We are looking for approximately equal minimum L∗ values at
+opposite ends of the colormap. By these measures, BrBG and RdBu are good options. coolwarm is a good option, but it
+doesn't span a wide range of L∗ values (see grayscale section below).
+
+cmaps['Diverging'] = [
+            'PiYG', 'PRGn', 'BrBG', 'PuOr', 'RdGy', 'RdBu',
+            'RdYlBu', 'RdYlGn', 'Spectral', 'coolwarm', 'bwr', 'seismic']
+Copy to clipboard
+Cyclic
+For Cyclic maps, we want to start and end on the same color, and meet a symmetric center point in the middle. L∗ should
+change monotonically from start to middle, and inversely from middle to end. It should be symmetric on the increasing
+and decreasing side, and only differ in hue. At the ends and middle, L∗ will reverse direction, which should be smoothed
+in L∗ space to reduce artifacts. See [kovesi-colormaps] for more information on the design of cyclic maps.
+
+The often-used HSV colormap is included in this set of colormaps, although it is not symmetric to a center point.
+Additionally, the L∗ values vary widely throughout the colormap, making it a poor choice for representing data for
+viewers to see perceptually. See an extension on this idea at [mycarta-jet].
+
+cmaps['Cyclic'] = ['twilight', 'twilight_shifted', 'hsv']
+Copy to clipboard
+Qualitative
+Qualitative colormaps are not aimed at being perceptual maps, but looking at the lightness parameter can verify that for
+us. The L∗ values move all over the place throughout the colormap, and are clearly not monotonically increasing. These
+would not be good options for use as perceptual colormaps.
+
+cmaps['Qualitative'] = ['Pastel1', 'Pastel2', 'Paired', 'Accent',
+                        'Dark2', 'Set1', 'Set2', 'Set3',
+                        'tab10', 'tab20', 'tab20b', 'tab20c']
+Copy to clipboard
+Miscellaneous
+Some of the miscellaneous colormaps have particular uses for which they have been created. For example, gist_earth,
+ocean, and terrain all seem to be created for plotting topography (green/brown) and water depths (blue) together. We
+would expect to see a divergence in these colormaps, then, but multiple kinks may not be ideal, such as in gist_earth
+and terrain. CMRmap was created to convert well to grayscale, though it does appear to have some small kinks in L∗.
+cubehelix was created to vary smoothly in both lightness and hue, but appears to have a small hump in the green hue area.
+
+The often-used jet colormap is included in this set of colormaps. We can see that the L∗ values vary widely throughout
+the colormap, making it a poor choice for representing data for viewers to see perceptually. See an extension on this
+idea at [mycarta-jet].
+
+cmaps['Miscellaneous'] = [
+            'flag', 'prism', 'ocean', 'gist_earth', 'terrain', 'gist_stern',
+            'gnuplot', 'gnuplot2', 'CMRmap', 'cubehelix', 'brg',
+            'gist_rainbow', 'rainbow', 'jet', 'nipy_spectral', 'gist_ncar']

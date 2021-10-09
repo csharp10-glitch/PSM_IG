@@ -1,0 +1,11 @@
+Parameter Units   Minimum   Maximum Description
+f         GHz     0.03      3.0     Frequency (GHz)
+p         %       1.0      50.0     Percentage of average year for which the calculated signal level is exceeded
+pL        %       1        99       Percentage of locations for which the calculated signal level is exceeded
+φt, φr    deg   −80       +80       Latitude of transmitter, receiver
+ψt, ψr    deg  −180.0     180.0     Longitude of transmitter, receiver (positive = East of Greenwich)
+htg, hrg  m       1      3000       Antenna centre height above ground level
+
+Polarization Signal polarisation, e.g. vertical or horizontal
+Polarisation in Table 1 is not a parameter with a numerical value. The information is used in § 4.3.3
+in connection with equations (29a), (29b) and (30).

@@ -1,0 +1,14 @@
+This Recommendation describes a propagation prediction method suitable for terrestrial point-to-area services
+The method provides detailed analysis based on the terrain profile.
+
+frequency range 30 MHz to 3 GHz.
+
+path lengths from 0.25 km up to about 3 000 km distance
+
+terminals within approximately 3 km height above ground.
+
+It predicts signal levels at the median of the multipath distribution
+exceeded for a given percentage of time, p%, in the range 1% ≤ p ≤ 50% and a given percentage of locations,
+pL, in the range 1% ≤ pL ≤ 99%.
+
+

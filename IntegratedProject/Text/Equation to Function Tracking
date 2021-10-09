@@ -1,0 +1,54 @@
+Equation Page Function Name      Input               Output   Output Type Location
+ 1a       4                                                                                di: distance from transmitter of i-th profile point (km)
+ 1b       4                                                                                hi: height of i-th profile point above sea level (m)
+ 1c       4                                                                                gi = hi + representative clutter height of i-th profile point (m)
+ 2 -------8------------------------------------------------------------------------------- Ducting, unused
+ 3 -------8------------------------------------------------------------------------------- Ducting, unused
+ 4 -------8------------------------------------------------------------------------------- Ducting, unused
+ 5 -------8------------------------------------------------------------------------------- Ducting, unused
+ 6        8   k50                 deltaN                      float       Map/refract      Takes dN(lat, Long) read from radio-met files, returning average radio-refractivity lapse-rate, ΔN
+ 7a       8   ae                  k50                         float       Map/refract      Takes k50 and estimates effective earth radius
+ 7b       8   ---------------------------------------------------------------------------- Not yet implemented
+ 8        9   losLoss             d, f               Loss     float       Loss/LineOfSight Takes a distance and frequency OR transmitter and target location, returns loss
+ 9a      10   Esp                 xmtr, %            dB       float       Loss/LineOfSight Statistical Adjustment
+ 9b      10   EsBeta              xmtr, %            dB       float       Loss/LineOfSight Statistical Adjustment
+10       10   Lb0p                Loss, dB           Loss     float       Loss/LineOfSight Statistical Adjustment
+11       10   Lbob                Loss, dB           Loss     float       Loss/LineOfSight Statistical Adjustment
+------------------------------------------Diffraction------------------------------------------------------------------
+12       10   j                   eta                jOfEta   float       Loss/Diffraction Knife Edge Diffraction
+13       11   slopeIntermediate   tx, rx, ter        slope    float       Loss/Diffraction Intermediate slope at point
+14       11   slopeTxRx           tx, rx             slope    float       Loss/Diffraction Slope from tx to final rx
+15       11   etaLoss             tx, rx, ter        slope    float[]     Loss/Diffraction Returns eta value from slopes
+16       11   Luc                 etaArray           eta      float       Loss/Diffraction Returns max eta value from slopes
+17       12   slopeRxPoint        tx, rx, ter        slope    float       Loss/Diffraction Slope from rx to point
+18       12   bullingtonDistance  tx, rx, slopes     distance float       Loss/Diffraction Bullington Distance
+19       12   etaTH               tx, rx, 18, stim   eta      float       Loss/Diffraction eta for transhorizon path
+20       12   ---------------------- eq 16 Luc -------------------------------------------
+21       12   bullingtonLoss      tx, rx, ter        Loss     float       Loss/Diffraction Bullington Loss
+22
+23
+24a
+24b
+24c
+25
+26
+27       13   lossDSph             tx, rx, ter        Loss     float       Loss/Diffraction Spherical earth diffraction loss
+28       13   lossDft              tx, rx, ter        Loss     float       Loss/Diffraction average loss based on land type
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40 --------------------------probability functions, implementation tbd ------------------------------------------------
+41 --------------------------probability functions, implementation tbd ------------------------------------------------
+42 --------------------------probability functions, implementation tbd ------------------------------------------------
+43 --------------------------probability functions, implementation tbd ------------------------------------------------
+-----------------------------------------Tropospheric Scatter----------------------------------------------------------
+44
+45

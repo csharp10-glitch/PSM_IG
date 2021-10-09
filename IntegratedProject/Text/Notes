@@ -1,0 +1,19 @@
+A procedure is then given for converting to electric field strength
+(dB(μV/m)) for an effective radiated power of 1 kW.
+
+In consequence, it is assumed that users of this Recommendation are able to specify detailed terrain
+profiles (i.e. elevations above mean sea level) as functions of distance along the great circle paths
+(i.e. geodesic curves) between the terminals, for many different terminal locations (receiver-points).
+For most practical applications of this method to point-to-area coverage and interference predictions,
+this assumption implies the availability of a digital terrain elevation database, referenced to latitude
+and longitude with respect to a consistent geodetic datum, from which the terrain profiles may be
+extracted by automated means.
+
+Model elements of the propagation prediction method
+This propagation prediction method takes account of the following model elements:
+– line-of-sight (LoS)
+– diffraction (embracing smooth-Earth, irregular terrain and sub-path cases)
+– tropospheric scatter
+
+eq 23&24 could be a lot more efficient. we calculate d(tx,rx) 5 or 6 times
+default omega to 0 (totaly overland path)
