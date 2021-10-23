@@ -27,6 +27,7 @@ def arcSecLat(lat):
     arcSecLat = arcSec*m.cos(radianLat)
     return arcSecLat
 
+# eq 1a pg 10
 def greatCircleDistance(object1, object2):
     lat1 = m.radians(object1.lat)
     long1 = m.radians(object1.long)

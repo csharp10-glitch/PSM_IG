@@ -7,7 +7,7 @@ import sqlite3
 # import tkinter
 
 import sqlite3
-conn = sqlite3.connect('../../hgt/data/eTerrain.db')
+conn = sqlite3.connect('../../../CnT/Misc/hgt/data/eTerrain.db')
 
 c = conn.cursor()
 
@@ -25,7 +25,7 @@ conn.commit()
 # Just be sure any changes have been committed or they will be lost.
 conn.close()
 
-conn = sqlite3.connect('../../hgt/data/eTerrain.db')
+conn = sqlite3.connect('../../../CnT/Misc/hgt/data/eTerrain.db')
 c = conn.cursor()
 
 # # Never do this -- insecure!

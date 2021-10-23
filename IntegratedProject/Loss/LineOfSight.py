@@ -18,7 +18,7 @@ def losLoss(point: T.GeoPoint, transmitter: T.transmitter):
 def Esp(transmiter: T.transmitter, prob):
     return 2.6*(1-m.exp((SphericalGeometry.horizon(transmiter.altitude)/(-10))))*(m.log10(prob/50))
 
-# eq 9a pg 10
+# eq 9b pg 10
 def EsBeta(transmiter: T.transmitter, prob):
     return 2.6*(1-m.exp((SphericalGeometry.horizon(transmiter.altitude)/(-10))))*(m.log10(prob/50))
 
