@@ -20,11 +20,13 @@ class terrainProfile(GeoObject):
 
 
 def bresenhamsLine(terrain: Terrain, tx: GeoObject, rx: GeoObject):
-    dms2m = 30*60*60
-    dx = decimalDegreeToDMS(m.fabs(tx.long - rx.long))
-    dx = int(DMStoS(dx))
-    dy = decimalDegreeToDMS(m.fabs(tx.lat - rx.lat))
+    # dms2m = 30*60*60
+    dy = decimalDegreeToDMS(m.fabs(tx.long - rx.long))
     dy = int(DMStoS(dy))
+    # print("dx", dx)
+    dx = decimalDegreeToDMS(m.fabs(tx.lat - rx.lat))
+    dx = int(DMStoS(dx))
+    # print(dy)
     # print("dx", dx, "dy", dy)
     xy = list()
     di = list([0])
@@ -35,8 +37,9 @@ def bresenhamsLine(terrain: Terrain, tx: GeoObject, rx: GeoObject):
     geo: GeoObject = GeoObject(tx.lat, tx.long, tx.altitude)
     xi = 0
     yj = 0
-    xi += int(DMStoS(decimalDegreeToDMS(tx.long-terrain.minLong)))
-    yj += int((tx.lat - terrain.minLat)*dms2m / terrain.granularity)
+    xi += int(DMStoS(decimalDegreeToDMS(tx.lat - terrain.minLat)))
+    yj += int((DMStoS(decimalDegreeToDMS(tx.long-terrain.minLong)))/ terrain.granularity)
+    # print(xi, ":", yj)
     yj1 = 0
     # print("xi", xi, "yj", yj)
     xStep: int = int(dx / terrain.granularity)
@@ -57,11 +60,24 @@ def bresenhamsLine(terrain: Terrain, tx: GeoObject, rx: GeoObject):
             # print("works")
         # print("geolat", geo.lat, "geolong", geo.long)
         yj1 = yj
-        # geo.altitude = terrain.de[xi][yj]
+        geo.altitude = terrain.de[xi][yj]
         xy.append((xi,yj))
         di.append(greatCircleDistance(geo,tx))
+        # print(xi, yj)
         hi.append(terrain.de[xi][yj])
-        xyz.append((xi,yj,terrain.de[xi][yj]))
+        xyz.append((geo.lat,geo.long,terrain.de[xi][yj]))
+
+        # xy.append((yj,xi))
+        # di.append(greatCircleDistance(geo,tx))
+        # print(xi, yj)
+        # hi.append(terrain.de[yj][xi])
+        # xyz.append((geo.lat,geo.long,terrain.de[yj][xi]))
+
+        # xy.reverse()
+        # hi.reverse()
+        # di.reverse()
+        # xyz.reverse()
+
     return xStep, xy, di, hi, xyz
 
 # sweet = Area.swath([], ['Map\MapData\\N38W112.hgt', 'Map/MapData\\N38W114.hgt', 'Map/MapData\\N38W113.hgt', 'Map/MapData\\N38W115.hgt', 'Map/MapData\\N39W114.hgt', 'Map/MapData\\N39W113.hgt', \

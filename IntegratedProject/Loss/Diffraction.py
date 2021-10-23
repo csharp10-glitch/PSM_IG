@@ -30,12 +30,13 @@ def slopeIntermediate(terrain: GeoObject, tx:Transmitter, rxDistance):
 # eq 14 pg 11
 def slopeTxRx(tx: Transmitter, rx: GeoObject):
     d = SCM.greatCircleDistance(tx, rx)
-    if d<1:
-        print(d)
+    # print("Distance: ", d)
+    # if d<1:
+        # print(d)
     slope = rx.altitude - tx.altitude
-    # print(slope)
+    # print("Height dif: ",slope)
     slope /= d
-    # print(slope)
+    # print("Slope: ", slope)
     return slope
 
 # eq 15 pg 11

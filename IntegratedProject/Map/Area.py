@@ -101,10 +101,14 @@ def getAltitude(terrain, lat: float, long: float):
     maxlat, maxlong = terrain.maxLat, terrain.maxLong
     # if((m.fabs(lat) < m.fabs(minlat) | (m.fabs(lat) > m.fabs(maxlat)) | (m.fabs(long) > m.fabs(maxlong)) | (m.fabs(long) < m.fabs(minlong))):
     #     print("Oops!  That was no valid number.  Try again...")
+    # print("Original Lat Long: ", lat, ":", long)
+    # print("Terraing Lat Long: ", minlat, ":", minlong)
     lat = lat - minlat
     long = long - minlong
+    # print("Lat Long: ", lat, ":", long)
     lat = int(DMStoS(decimalDegreeToDMS(lat)))
     long = int(DMStoS(decimalDegreeToDMS(long)))
+    # print("Lat Long: ", lat, ":", long)
     height = terrain.de[lat][long]
     return height
 
