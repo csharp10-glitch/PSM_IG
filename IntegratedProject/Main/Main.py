@@ -28,7 +28,7 @@ texas = Transmitter(38.97222222222222, -111.505, 100, 2000)
 # texas = Transmitter(40.5,-112.5, 100, 1500)
 cali = Transmitter(39.5,-113, 100, 1400)
 tenn = Transmitter(39.5,-113, 100, 1200)
-range = PowerAndRange.range(texas, 1)*500
+range = PowerAndRange.range(texas, 1)*1000
 print("Loc Alt: ", A.getAltitude(sweet, texas.lat, texas.long))
 print(range, ":", int(range/30.87))
 
@@ -82,7 +82,6 @@ hiList = list()
 low = 0
 for i in xy:
     count +=1
-    print(i)
     rxll = getLatLong(sweet, i)
     rxalt = A.getAltitude(sweet, rxll[0], rxll[1])
     rx = GeoObject(rxll[0], rxll[1], rxalt)
@@ -93,6 +92,7 @@ for i in xy:
     if (count%1000)==0:
     #     # print("COUNT:", count)
         print("RX_XY Lat/Long: ", rxll, ", Alt: ", rxalt)
+        print(slopeTxRx(texas, rx))
     #     print("RX Lat: ", rx.lat, ", Long: ", rx.long, ", Alt: ", rx.altitude)
     #     print("Discard?: ", discard)
     #     print("Line indecies: ", line)
@@ -118,14 +118,17 @@ for i in xy:
             #     print(texas.lat, texas.long, texas.altitude)
             #     print("slope", trs)
         # print(max(slope), slope[-1], max(slope)==slope[-1])
-
-        if max(slope) >= slopeTxRx(texas, rx):
-            sloppyXm.append((i[0],i[1], 2000))
-            high+=1
-            hiList.append(i)
-        else:
-            sloppyXm.append((i[0], i[1], 0))
-            low+=1
+        # print(max(slope))
+        # print(slopeTxRx(texas,rx))
+        # print(max(slopeTxRx(texas, rx),min(slope)))
+        sloppyXm.append((i[0], i[1], 10*max(slopeTxRx(texas, rx),min(slope))))
+        # if max(slope) >= slopeTxRx(texas, rx):
+        #     sloppyXm.append((i[0],i[1], 2000))
+        #     high+=1
+        #     hiList.append(i)
+        # else:
+        #     sloppyXm.append((i[0], i[1], 0))
+        #     low+=1
 
 
             # break
