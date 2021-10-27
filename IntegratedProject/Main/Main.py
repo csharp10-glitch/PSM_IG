@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plot
 import time as t
 # Get an area
+from IntegratedProject.Loss.LineOfSight import losLoss
 from IntegratedProject.Math import SphericalGeometry as SCM
 import IntegratedProject.Map.Area as A
-from IntegratedProject.Loss.Diffraction import slopeTxRx
+from IntegratedProject.Loss.Diffraction import slopeTxRx, slopeIntermediate, etaLoS, slopeRxPoint, bullingtonDistance, \
+    etaTH
 from IntegratedProject.Map.GeoObject import GeoObject
 from IntegratedProject.Map.Transmitter import Transmitter
 from IntegratedProject.Map.findInArray import getIndex, getLatLong
@@ -122,12 +124,25 @@ for i in xy:
         # print(slopeTxRx(texas,rx))
         # print(max(slopeTxRx(texas, rx),min(slope)))
         sloppyXm.append((i[0], i[1], 10*max(slopeTxRx(texas, rx),min(slope))))
-        # if max(slope) >= slopeTxRx(texas, rx):
-        #     sloppyXm.append((i[0],i[1], 2000))
+        if max(slope) >= slopeTxRx(texas, rx):
+            stim = slopeIntermediate(sweet, texas, rx)
+            str = slopeTxRx(texas, rx)
+            etaArray = list()
+            for rx in subRx:
+                etaArray.append(etaLoS(sweet,texas,rx))
+            etaMax = max(etaArray)
+            j_etaMax = j(etaMax)
+            srim = slopeRxPoint(sweet, rx, texas)
+            bullingtonPointDistance = bullingtonDistance(texas, rx, stim, srim)
+            etaBPD = etaTH(bullingtonPointDistance, texas, rx, stim)
+            L_uc = j(etaBPD)
+
+            sloppyXm.append((i[0],i[1], 2000))
         #     high+=1
         #     hiList.append(i)
-        # else:
-        #     sloppyXm.append((i[0], i[1], 0))
+        else:
+            lineOfSight = losLoss(texas, rx)
+            sloppyXm.append((i[0], i[1], lineOfSight))
         #     low+=1
 
 

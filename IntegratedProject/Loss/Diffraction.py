@@ -40,7 +40,9 @@ def slopeTxRx(tx: Transmitter, rx: GeoObject):
     return slope
 
 # eq 15 pg 11
-def etaLoS(terrain: GeoObject, tx:Transmitter, rxDistance, rxAltitude):
+def etaLoS(terrain: GeoObject, tx:Transmitter, rx):
+    rxDistance = SCM.greatCircleDistance(tx, rx)
+    rxAltitude = rx.altitude
     pointDistance = SCM.greatCircleDistance(terrain, tx)
     totalTossPointD = rxDistance - pointDistance
     eta = terrain.altitude + 500*k*pointDistance*totalTossPointD
@@ -66,7 +68,7 @@ def slopeRxPoint(terrain: GeoObject, rx:GeoObject, tx: Transmitter):
     return slope
 
 # eq 18 pg 12
-def bullingtonDistance(rx: GeoObject, tx: Transmitter, stim, srim):
+def bullingtonDistance(tx: Transmitter, rx: GeoObject, stim, srim):
     fullDistance = SCM.greatCircleDistance(rx,tx)
     bullD = rx.altitude - tx.altitude + srim*fullDistance
     bullD /= (stim+srim)
@@ -86,6 +88,7 @@ def bullingtonLoss(terrain: GeoObject, tx: Transmitter, rx: GeoObject):
     srim = slopeRxPoint(terrain, rx, tx)
     bullDist = bullingtonDistance(rx, tx, stim, srim)
     loss = j(etaTH(bullDist, tx, rx, stim))
+    loss = loss + (1-m.exp(-loss/6))*(10+0.02*bullDist)
     return loss
 
 # eq 22 pg 12 marginal LoS distance for a smooth path
