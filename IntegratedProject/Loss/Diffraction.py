@@ -2,7 +2,7 @@ import math
 import math as m
 
 from IntegratedProject.Map.Transmitter import Transmitter
-from IntegratedProject.Map.GeoObject import GeoObject
+from IntegratedProject.Map.GeoObject import GeoObject, GeoPoint
 from IntegratedProject.Math import SphericalGeometry as SCM
 
 # eq 12 pg 10
@@ -21,9 +21,10 @@ def slopeIntermediate(terrain: GeoObject, tx:Transmitter, rx: GeoObject):
     return slope
 
 # eq 13 pg 11
-def slopeIntermediate(terrain: GeoObject, tx:Transmitter, rxDistance):
-    pointDistance = SCM.greatCircleDistance(terrain,tx)
-    slope = terrain.altitude + 500 * k * pointDistance*(rxDistance-pointDistance) - tx.height
+def slopeIntermediate(tx:Transmitter, rx, srx):
+    pointDistance = SCM.greatCircleDistance(tx, srx)
+    rxDistance = SCM.greatCircleDistance(tx,rx)
+    slope = srx.altitude + 500 * SCM.curvature(srx.lat) * pointDistance*(rxDistance-pointDistance) - tx.altitude
     slope /= pointDistance
     return slope
 
@@ -40,14 +41,14 @@ def slopeTxRx(tx: Transmitter, rx: GeoObject):
     return slope
 
 # eq 15 pg 11
-def etaLoS(terrain: GeoObject, tx:Transmitter, rx):
+def etaLoS(tx:Transmitter, rx: GeoPoint, srx):
     rxDistance = SCM.greatCircleDistance(tx, rx)
     rxAltitude = rx.altitude
-    pointDistance = SCM.greatCircleDistance(terrain, tx)
+    pointDistance = SCM.greatCircleDistance(srx, tx)
     totalTossPointD = rxDistance - pointDistance
-    eta = terrain.altitude + 500*k*pointDistance*totalTossPointD
+    eta = srx.altitude + 500*k*pointDistance*totalTossPointD
     eta -= (tx.altitude*totalTossPointD+rxAltitude*pointDistance)/rxDistance
-    eta *= m.sqrt((0.002*rxDistance)/(tx.waveLength*pointDistance*totalTossPointD))
+    eta *= m.sqrt(m.fabs((0.002*rxDistance)/(tx.waveLength*pointDistance*totalTossPointD)))
     return eta
 
 # eq 16 pg 11
@@ -55,16 +56,11 @@ def Luc(etaArray):
     return max(etaArray)
 
 #eq 17 pg 12
-def slopeRxPoint(terrain: GeoObject, rx:GeoObject, txDistance):
-    pointDistance = SCM.greatCircleDistance(terrain,rx)
-    slope = terrain.altitude + 500 * k * pointDistance*(txDistance-pointDistance) - rx.altitude
-    slope /= txDistance - pointDistance
-    return slope
-
-#eq 17 pg 12
-def slopeRxPoint(terrain: GeoObject, rx:GeoObject, tx: Transmitter):
-    fullDistance = SCM.greatCircleDistance(rx, tx)
-    slope = slopeRxPoint(terrain, rx, fullDistance)
+def slopeRxPoint(rx:GeoObject, tx, srx):
+    pointDistance = SCM.greatCircleDistance(tx, srx)
+    rxDistance = SCM.greatCircleDistance(tx,rx)
+    slope = srx.altitude + 500 * SCM.curvature(srx.lat) * pointDistance*(rxDistance-pointDistance) - tx.altitude
+    slope /= pointDistance
     return slope
 
 # eq 18 pg 12
@@ -75,19 +71,27 @@ def bullingtonDistance(tx: Transmitter, rx: GeoObject, stim, srim):
     return bullD
 
 # eq 19 pg 12 eta for transhorizon path
-def etaTH(bullingtonDistance, tx: Transmitter, rx: GeoObject, stim):
+def etaTH(tx: Transmitter, rx: GeoObject, srx):
+    stim = slopeIntermediate(tx, rx, srx)
+    srim = slopeRxPoint(rx, tx, srx)
+    bullDist = bullingtonDistance(rx, tx, stim, srim)
     fullDistance = SCM.greatCircleDistance(rx,tx)
-    eta = tx.altitude + stim+bullingtonDistance
-    eta -= (tx.altitude*(fullDistance-bullingtonDistance)+rx.altitude*bullingtonDistance)/fullDistance
-    eta *= m.sqrt((0.002*fullDistance)/(tx.waveLength*bullingtonDistance*(fullDistance-bullingtonDistance)))
+    eta = tx.altitude + stim+bullDist
+    # print("eta: ", eta)
+    eta -= (tx.altitude*(fullDistance-bullDist)+rx.altitude*bullDist)/fullDistance
+    # print("tx-rx Distance: ", fullDistance, ", Bullington Distance: ", bullDist, ", wave length: ", tx.waveLength)
+    # print("eta: ", eta)
+    # print("num: ", (0.002*fullDistance))
+    # print("Denom: ", (tx.waveLength*bullDist*(fullDistance-bullDist)))
+    eta *= m.sqrt(m.fabs((0.002*fullDistance)/(tx.waveLength*bullDist*(fullDistance-bullDist))))
     return eta
 
 # eq 21 pg 12 bullington diffraction loss
-def bullingtonLoss(terrain: GeoObject, tx: Transmitter, rx: GeoObject):
-    stim = slopeIntermediate(terrain, tx, rx)
-    srim = slopeRxPoint(terrain, rx, tx)
+def bullingtonLoss(tx: Transmitter, rx: GeoObject, srx):
+    stim = slopeIntermediate(tx, rx, srx)
+    srim = slopeRxPoint(rx, tx, srx)
     bullDist = bullingtonDistance(rx, tx, stim, srim)
-    loss = j(etaTH(bullDist, tx, rx, stim))
+    loss = j(etaTH(tx, rx, srx))
     loss = loss + (1-m.exp(-loss/6))*(10+0.02*bullDist)
     return loss
 
@@ -153,7 +157,7 @@ def hReq(tx: Transmitter, rx):
     dse2 = eq24b(tx, rx)
     dse1 = d - dse2
     lambdas = tx.waveLength
-    hreq = 17.456*m.sqrt(dse1*dse2*lambdas/d)
+    hreq = 17.456*m.sqrt(m.fabs(dse1*dse2*lambdas/d))
     return hreq
 
 # eq 26 pg 13

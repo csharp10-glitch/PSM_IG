@@ -6,20 +6,20 @@ from IntegratedProject.Math.SphericalGeometry import greatCircleDistance
 
 
 # eq 8 pg 9
-def losLoss(d: float, freq: int):
+def losLoss_(d: float, freq: int):
     loss = 92.45 + 20 * m.log10(freq) + 20 * m.log10(d)
     return loss
 
 # eq 8 pg 9
-def losLoss(point: T.GeoPoint, transmitter: T.transmitter):
-    return losLoss(greatCircleDistance(point,transmitter), transmitter.freq)
+def losLoss(transmitter, point):
+    return losLoss_(greatCircleDistance(point,transmitter), transmitter.freq)
 
 # eq 9a pg 10
-def Esp(transmiter: T.transmitter, prob):
+def Esp(transmiter, prob):
     return 2.6*(1-m.exp((SphericalGeometry.horizon(transmiter.altitude)/(-10))))*(m.log10(prob/50))
 
 # eq 9b pg 10
-def EsBeta(transmiter: T.transmitter, prob):
+def EsBeta(transmiter, prob):
     return 2.6*(1-m.exp((SphericalGeometry.horizon(transmiter.altitude)/(-10))))*(m.log10(prob/50))
 
 # eq 10 pg 10

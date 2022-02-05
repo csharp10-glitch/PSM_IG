@@ -180,11 +180,11 @@ def decimalToArea(coordinate,array):
     maxLat = array.maxLat
     minLong = array.minLong
     maxLong = array.maxLong
-    print(minLat)
-    print(maxLat)
-    print(minLong)
-    print(maxLong)
-    print(coordinate)
+    # print(minLat)
+    # print(maxLat)
+    # print(minLong)
+    # print(maxLong)
+    # print(coordinate)
     if minLat > coordinate[0] or maxLat < coordinate[0]:
         raise ValueError('Coordinate not in map')
     elif minLong > coordinate[1] or maxLong < coordinate[1]:

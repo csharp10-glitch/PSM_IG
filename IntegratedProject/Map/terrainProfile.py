@@ -65,7 +65,7 @@ def bresenhamsLine(terrain: Terrain, tx: GeoObject, rx: GeoObject):
         di.append(greatCircleDistance(geo,tx))
         # print(xi, yj)
         hi.append(terrain.de[xi][yj])
-        xyz.append((geo.lat,geo.long,terrain.de[xi][yj]))
+        xyz.append(GeoObject(geo.lat,geo.long,terrain.de[xi][yj]))
 
         # xy.append((yj,xi))
         # di.append(greatCircleDistance(geo,tx))

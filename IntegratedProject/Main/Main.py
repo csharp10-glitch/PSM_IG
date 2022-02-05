@@ -5,7 +5,7 @@ from IntegratedProject.Loss.LineOfSight import losLoss
 from IntegratedProject.Math import SphericalGeometry as SCM
 import IntegratedProject.Map.Area as A
 from IntegratedProject.Loss.Diffraction import slopeTxRx, slopeIntermediate, etaLoS, slopeRxPoint, bullingtonDistance, \
-    etaTH
+    etaTH, bullingtonLoss, marginalLoSDistance, minClear, hReq, lossDSph, j
 from IntegratedProject.Map.GeoObject import GeoObject
 from IntegratedProject.Map.Transmitter import Transmitter
 from IntegratedProject.Map.findInArray import getIndex, getLatLong
@@ -26,7 +26,7 @@ print(sweet.de.shape)
 
 # Add transmitters to the area, check to see they're within the area
 # texas = Transmitter(39,-113, 100, 1500)
-texas = Transmitter(38.97222222222222, -111.505, 100, 2000)
+texas = Transmitter(38.97222222222222, -111.505, 100, 1875)
 # texas = Transmitter(40.5,-112.5, 100, 1500)
 cali = Transmitter(39.5,-113, 100, 1400)
 tenn = Transmitter(39.5,-113, 100, 1200)
@@ -39,7 +39,7 @@ x, y = getIndex(sweet, texas)
 texIndex = (x, y)
 print(texIndex)
 
-xy = midPointCircleDraw(0, 0, int(range/30.87))
+xy = midPointCircleDraw(0, 0, int(range*2/30.87))
 # xy = midPointCircleDraw(0, 0, 5)
 xy.sort()
 xy = fillPointsZero(xy)
@@ -50,9 +50,9 @@ xy = list(set(xy))
 print("xy filled and listed")
 xy.sort()
 print("xy sorted ")
-print(getLatLong(sweet, (3493,9000)))
-print(getLatLong(sweet, (5500, 9000)))
-print(getLatLong(sweet, (3500, 8982)))
+# print(getLatLong(sweet, (3493,9000)))
+# print(getLatLong(sweet, (5500, 9000)))
+# print(getLatLong(sweet, (3500, 8982)))
 
 # x, y = zip(*xy)
 # plot.scatter(x, y)
@@ -92,9 +92,9 @@ for i in xy:
     rxcount += 1
     discard, line, di, hi, subRx = bresenhamsLine(sweet, texas, rx)
     if (count%1000)==0:
-    #     # print("COUNT:", count)
-        print("RX_XY Lat/Long: ", rxll, ", Alt: ", rxalt)
-        print(slopeTxRx(texas, rx))
+        print("COUNT:", count)
+    #     print("RX_XY Lat/Long: ", rxll, ", Alt: ", rxalt)
+    #     print(slopeTxRx(texas, rx))
     #     print("RX Lat: ", rx.lat, ", Long: ", rx.long, ", Alt: ", rx.altitude)
     #     print("Discard?: ", discard)
     #     print("Line indecies: ", line)
@@ -109,10 +109,10 @@ for i in xy:
         # print("Difference in height: ", (texas.altitude-rx.altitude))
         # print("Slope: ", (texas.altitude-rx.altitude)/SCM.greatCircleDistance(texas, rx))
         # print("TX-RX Slope: ", slopeTxRx(texas, rx))
-        for j in subRx:
-            srx = GeoObject(j[0],j[1], j[2])
+        for j_index in subRx:
+            # srx = GeoObject(j[0],j[1], j[2])
             # print("SubRX Lat: ", srx.lat, ", Long: ", srx.long, ", Alt: ", srx.altitude)
-            trs = slopeTxRx(texas, srx)
+            trs = slopeTxRx(texas, j_index)
 
             slope.append(trs)
             # if (count%1000)==0:
@@ -125,19 +125,21 @@ for i in xy:
         # print(max(slopeTxRx(texas, rx),min(slope)))
         sloppyXm.append((i[0], i[1], 10*max(slopeTxRx(texas, rx),min(slope))))
         if max(slope) >= slopeTxRx(texas, rx):
-            stim = slopeIntermediate(sweet, texas, rx)
             str = slopeTxRx(texas, rx)
             etaArray = list()
-            for rx in subRx:
-                etaArray.append(etaLoS(sweet,texas,rx))
+            for srx in subRx:
+                # print("rx: ", rx.lat)
+                etaArray.append(etaLoS(texas,rx, srx))
             etaMax = max(etaArray)
+            # print("v_max",etaMax, ", Type: ", type(etaMax))
             j_etaMax = j(etaMax)
-            srim = slopeRxPoint(sweet, rx, texas)
-            bullingtonPointDistance = bullingtonDistance(texas, rx, stim, srim)
-            etaBPD = etaTH(bullingtonPointDistance, texas, rx, stim)
-            L_uc = j(etaBPD)
-
+            etaBPD = etaTH(texas, rx, srx)
+            L_bull = bullingtonLoss(texas, rx, srx)
+            d_los = marginalLoSDistance(texas, rx)
             sloppyXm.append((i[0],i[1], 2000))
+            minimumClearance = minClear(texas, rx)
+            h_req = hReq(texas, rx)
+            sphericalDiffractionLoss = lossDSph(sweet, texas, rx)
         #     high+=1
         #     hiList.append(i)
         else:
@@ -166,6 +168,6 @@ plot.imshow(sweet.de)
 # Paint the power
 # # x, y, z = zip(*xyz)
 y, x, z = zip(*sloppyXm)
-plot.scatter(x, y, 1, z, alpha=0.85)
+plot.scatter(x, y, 1, z, alpha=1.0)
 # # Show
 plot.show()

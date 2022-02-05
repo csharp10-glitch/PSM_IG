@@ -9,7 +9,7 @@ class Transmitter(GeoObject):
     def __init__(self, lat, long, power = 1, altitude = 1, freq = 0.03, polarization = 'horizontal', pMean = 1.0, pLoc = 1.0):
         self.altitude = altitude
         self.freq = freq
-        self.waveLength = c.c/freq
+        self.waveLength = c.c/(freq*1000000000)
         self.lat = lat
         self.long = long
         self.power = power
