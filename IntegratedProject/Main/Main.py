@@ -82,6 +82,9 @@ print("COUNT:", count)
 high = 0
 hiList = list()
 low = 0
+
+circleCheck = list()
+
 for i in xy:
     count +=1
     rxll = getLatLong(sweet, i)
@@ -91,6 +94,11 @@ for i in xy:
     # sloppyXm.append((i[0],i[1], rxalt+200))
     rxcount += 1
     discard, line, di, hi, subRx = bresenhamsLine(sweet, texas, rx)
+
+
+    circleCheck.append((i[0], i[1], 10000))
+
+
     if (count%1000)==0:
         print("COUNT:", count)
     #     print("RX_XY Lat/Long: ", rxll, ", Alt: ", rxalt)
@@ -136,16 +144,16 @@ for i in xy:
             etaBPD = etaTH(texas, rx, srx)
             L_bull = bullingtonLoss(texas, rx, srx)
             d_los = marginalLoSDistance(texas, rx)
-            sloppyXm.append((i[0],i[1], 2000))
+            sloppyXm.append((i[0],i[1], d_los))
             minimumClearance = minClear(texas, rx)
             h_req = hReq(texas, rx)
             sphericalDiffractionLoss = lossDSph(sweet, texas, rx)
         #     high+=1
         #     hiList.append(i)
-        else:
-            lineOfSight = losLoss(texas, rx)
-            sloppyXm.append((i[0], i[1], lineOfSight))
-        #     low+=1
+        # else:
+        #     lineOfSight = losLoss(texas, rx)
+        #     sloppyXm.append((i[0], i[1], lineOfSight))
+        # #     low+=1
 
 
             # break
@@ -158,6 +166,11 @@ for i in xy:
     #     print("slope", trs)
     #     print(max(slope), slope[-1], max(slope)==slope[-1])
 # print(len(sloppyXm), len(xy))
+
+plot.imshow(sweet.de)
+y, x, z = zip(*circleCheck)
+plot.scatter(x, y, 1, z, alpha=0.0)
+plot.show()
 
 print("High: ", high)
 print(hiList)

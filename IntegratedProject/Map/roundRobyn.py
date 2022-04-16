@@ -124,7 +124,7 @@ def drawFull(xy):
     return 0
 
 
-# xy = midPointCircleDraw(0, 0, 1000)
+# xy = midPointCircleDraw(0, 0, 100)
 # xy.sort()
 #
 # # print(xy)

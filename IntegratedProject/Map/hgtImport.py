@@ -6,7 +6,7 @@ import matplotlib.pyplot as plot
 def readHGT(filename):
     fn = filename
     # print(fn)
-    fn = r'C:\Users\chris\PycharmProjects\school\IntegratedProject\Map' + fn
+    fn = r'C:\Users\chris\PycharmProjects\school\IntegratedProject\Map\\' + fn
     siz = os.path.getsize(fn)
     dim = int(math.sqrt(siz / 2))
     assert dim * dim * 2 == siz, 'Invalid file size'
@@ -31,8 +31,8 @@ def hgtPlot(data):
     plot.show()
     return
 
-# dat = readHGT('MapData\\N38W112.hgt')
-# hgtPlot(dat[0])
+dat = readHGT('MapData\\N38W112.hgt')
+hgtPlot(dat[0])
 
 # dat = readHGT('MapData/N42W002.hgt')
 # hgtPlot(dat[0])
