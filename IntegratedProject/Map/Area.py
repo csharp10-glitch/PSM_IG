@@ -1,13 +1,14 @@
 import IntegratedProject.Map.hgtImport as hgt
 import math as m
 import numpy as np
+import DEM_Dataframe as DM
 import matplotlib.pyplot as plot
 
 from IntegratedProject.Math.SphericalGeometry import decimalDegreeToDMS, DMStoS
 
 
 class area:
-    def __init__(self, filename, setNulls = True, setNullsTo = 0.0, show = False, granularity = 30.87):
+    def __init__(self, filename, setNulls = True, setNullsTo = 0.0, show = False, granularity = 30.87, dataframe = True):
         self.loc = filename[0+4:19]
         filename = filename[0+3:]
         self.granularity = granularity
@@ -33,7 +34,10 @@ class area:
         self.minLong = longSign*long
         self.maxLong = self.minLong + 1
         # print(filename)
-        self.de, self.shape = hgt.readHGT(filename)
+        if dataframe:
+            self.de, self.shape = DM.readToDataframe()
+        else:
+            self.de, self.shape = hgt.readHGT(filename)
         # self.granularity = m.fabs(self.maxLat - self.minLat) / self.shape
         if setNulls == True:
             self.de = hgt.setNulls(self.de, setNullsTo)
