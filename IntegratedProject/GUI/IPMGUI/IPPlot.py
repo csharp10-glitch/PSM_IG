@@ -15,8 +15,11 @@ def IPPlot(root):
     canvas = FigureCanvasTkAgg(fig, master=root)
     plot_widget = canvas.get_tk_widget()
     plot_widget.grid(row=0, column=0)
-    updateButton = tk.Button(root, text="Update", command=update).grid(row=1, column=0)
-    return plot_widget, updateButton
+    return plot_widget
+
+def updateButton(root):
+    updateButton = tk.Button(root, text="Update", command=update).grid(row=0, column=1)
+    return updateButton
 
 def update():
     s = np.cos(np.pi*t)
