@@ -17,8 +17,8 @@ def IPPlot(root):
     plot_widget.grid(row=0, column=0)
     return plot_widget
 
-def updateButton(root):
-    updateButton = tk.Button(root, text="Update", command=update).grid(row=0, column=1)
+def updateButton(root, row=0, column=0):
+    updateButton = tk.Button(root, text="Update", name = "update", command=update).grid(row=row, column=column)
     return updateButton
 
 def update():
