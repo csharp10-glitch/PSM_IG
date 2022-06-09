@@ -23,7 +23,7 @@ def readToDataframe(filename):
     dim = int(math.sqrt(siz / 2))
     assert dim * dim * 2 == siz, 'Invalid file size'
     data = numpy.fromfile(fn, numpy.dtype('>i2'), dim * dim).reshape((dim, dim))
-    data.interpolate(method='polynomial', order=3, inplace=True)
+    # data.interpolate(method='polynomial', order=3, inplace=True)
     data = pd.DataFrame(data)
     return data
 

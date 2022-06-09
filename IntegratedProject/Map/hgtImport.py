@@ -31,8 +31,8 @@ def hgtPlot(data):
     plot.show()
     return
 
-dat = readHGT('MapData\\N38W112.hgt')
-hgtPlot(dat[0])
+# dat = readHGT('MapData\\N38W112.hgt')
+# hgtPlot(dat[0])
 
 # dat = readHGT('MapData/N42W002.hgt')
 # hgtPlot(dat[0])

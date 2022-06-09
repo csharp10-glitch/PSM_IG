@@ -1,7 +1,7 @@
 import IntegratedProject.Map.hgtImport as hgt
 import math as m
 import numpy as np
-import DEM_Dataframe as DM
+import IntegratedProject.Map.DEM_Dataframe as dm
 import matplotlib.pyplot as plot
 
 from IntegratedProject.Math.SphericalGeometry import decimalDegreeToDMS, DMStoS
@@ -35,7 +35,8 @@ class area:
         self.maxLong = self.minLong + 1
         # print(filename)
         if dataframe:
-            self.de, self.shape = DM.readToDataframe()
+            # return
+            self.de, self.shape = dm.readToDataframe(filename)
         else:
             self.de, self.shape = hgt.readHGT(filename)
         # self.granularity = m.fabs(self.maxLat - self.minLat) / self.shape
@@ -55,7 +56,7 @@ class swath(area):
         except IndexError:
             pass
         for i in filenames:
-            place = area(i, setNulls, setNullsTo)
+            place = area(i, setNulls, setNullsTo, dataframe=False)
             # print(place)
             areas.append(place)
             # print(areas)

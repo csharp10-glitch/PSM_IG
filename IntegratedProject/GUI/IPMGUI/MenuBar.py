@@ -1,5 +1,5 @@
 import tkinter as tk
-import FileBar as fb
+import IntegratedProject.GUI.IPMGUI.FileBar as fb
 
 def donothing():
     x = 0

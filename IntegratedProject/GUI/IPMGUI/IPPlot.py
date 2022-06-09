@@ -1,7 +1,7 @@
 import numpy as np
 import tkinter as tk
 import matplotlib
-matplotlib.use('TkAgg')
+# matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 
@@ -15,6 +15,15 @@ def IPPlot(root):
     canvas = FigureCanvasTkAgg(fig, master=root)
     plot_widget = canvas.get_tk_widget()
     plot_widget.grid(row=0, column=0)
+    return plot_widget
+
+def IPPlot(root, area, scatter, row=0, column=0):
+    plt.imshow(area)
+    plt.scatter(scatter[0], scatter[1], 1, scatter[2], alpha=0.0)
+    # plt.show()
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    plot_widget = canvas.get_tk_widget()
+    plot_widget.grid(row=row, column=column)
     return plot_widget
 
 def updateButton(root, row=0, column=0):

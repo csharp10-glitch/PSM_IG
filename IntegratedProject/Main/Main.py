@@ -1,19 +1,15 @@
 import matplotlib.pyplot as plot
-import time as t
-# Get an area
-from IntegratedProject.Loss.LineOfSight import losLoss
-from IntegratedProject.Math import SphericalGeometry as SCM
 import IntegratedProject.Map.Area as A
-from IntegratedProject.Loss.Diffraction import slopeTxRx, slopeIntermediate, etaLoS, slopeRxPoint, bullingtonDistance, \
-    etaTH, bullingtonLoss, marginalLoSDistance, minClear, hReq, lossDSph, j
+# Get an area
+from IntegratedProject.GUI.IPMGUI.MainGUI import mainGUI
+from IntegratedProject.Loss.Diffraction import slopeTxRx, etaLoS, etaTH, bullingtonLoss, marginalLoSDistance, minClear, \
+    hReq, lossDSph, j
 from IntegratedProject.Map.GeoObject import GeoObject
 from IntegratedProject.Map.Transmitter import Transmitter
 from IntegratedProject.Map.findInArray import getIndex, getLatLong
-from IntegratedProject.Map.roundRobyn import midPointCircleDraw, fillPoints, moveFullCircle, fillPointsZero
+from IntegratedProject.Map.roundRobyn import midPointCircleDraw, moveFullCircle, fillPointsZero
 from IntegratedProject.Map.terrainProfile import bresenhamsLine
-from IntegratedProject.Math.SphericalGeometry import greatCircleDistance
 from IntegratedProject.RadarEquations import PowerAndRange
-
 
 # sweet = A.swath([], ['Map\MapData\\N38W112.hgt','Map/MapData\\N38W114.hgt','Map/MapData\\N38W113.hgt','Map/MapData\\N38W115.hgt','Map/MapData\\N39W114.hgt','Map/MapData\\N39W113.hgt', \
 #                    'Map/MapData\\N39W112.hgt','Map/MapData\\N39W115.hgt','Map/MapData\\N40W112.hgt','Map/MapData\\N40W113.hgt','Map/MapData\\N40W115.hgt','Map/MapData\\N40W114.hgt'], setNullsTo = 1200)
@@ -30,7 +26,7 @@ texas = Transmitter(38.97222222222222, -111.505, 100, 1875)
 # texas = Transmitter(40.5,-112.5, 100, 1500)
 cali = Transmitter(39.5,-113, 100, 1400)
 tenn = Transmitter(39.5,-113, 100, 1200)
-range = PowerAndRange.range(texas, 1)*1000
+range = PowerAndRange.range(texas, 1)*100
 print("Loc Alt: ", A.getAltitude(sweet, texas.lat, texas.long))
 print(range, ":", int(range/30.87))
 
@@ -167,20 +163,28 @@ for i in xy:
     #     print(max(slope), slope[-1], max(slope)==slope[-1])
 # print(len(sloppyXm), len(xy))
 
-plot.imshow(sweet.de)
+print("start gui")
 y, x, z = zip(*circleCheck)
-plot.scatter(x, y, 1, z, alpha=0.0)
-plot.show()
+xyz = [x,y,z]
+print(len(x))
+print(len(y))
+print(len(z))
+mainGUI(sweet.de, xyz)
 
-print("High: ", high)
-print(hiList)
-print("Low: ", low)
-
-# Paint the location
-plot.imshow(sweet.de)
-# Paint the power
-# # x, y, z = zip(*xyz)
-y, x, z = zip(*sloppyXm)
-plot.scatter(x, y, 1, z, alpha=1.0)
-# # Show
-plot.show()
+# plot.imshow(sweet.de)
+#
+# plot.scatter(x, y, 1, z, alpha=0.0)
+# plot.show()
+#
+# print("High: ", high)
+# print(hiList)
+# print("Low: ", low)
+#
+# # Paint the location
+# plot.imshow(sweet.de)
+# # Paint the power
+# # # x, y, z = zip(*xyz)
+# y, x, z = zip(*sloppyXm)
+# plot.scatter(x, y, 1, z, alpha=1.0)
+# # # Show
+# plot.show()
