@@ -17,7 +17,7 @@ def IPPlot(root):
     plot_widget.grid(row=0, column=0)
     return plot_widget
 
-def IPPlot(root, area, scatter, row=0, column=0):
+def IPPlot(root, area, scatter =[[0],[0],[0]], row=0, column=0):
     plt.imshow(area)
     plt.scatter(scatter[0], scatter[1], 1, scatter[2], alpha=0.0)
     # plt.show()
